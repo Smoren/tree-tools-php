@@ -6,7 +6,7 @@ namespace Smoren\TreeTools;
 
 use ArrayAccess;
 use Generator;
-use Smoren\TypeTools\MapAccessor;
+use Smoren\TypeTools\MapAccess;
 
 /**
  * @phpstan-type DictAccess = array<string, mixed>|ArrayAccess<string, mixed>|object
@@ -50,7 +50,7 @@ class TreeWalker
             foreach($data as $datum) {
                 if($childrenContainerKey !== null) {
                     yield $level => $datum;
-                    $childrenContainer = MapAccessor::get($datum, $childrenContainerKey);
+                    $childrenContainer = MapAccess::get($datum, $childrenContainerKey);
                 } else {
                     if(!is_iterable($datum)) {
                         yield $level => $datum;
@@ -86,7 +86,7 @@ class TreeWalker
         foreach($data as $datum) {
             if($childrenContainerKey !== null) {
                 yield $level => $datum;
-                $childrenContainer = MapAccessor::get($datum, $childrenContainerKey);
+                $childrenContainer = MapAccess::get($datum, $childrenContainerKey);
             } else {
                 if(!is_iterable($datum)) {
                     yield $level => $datum;
