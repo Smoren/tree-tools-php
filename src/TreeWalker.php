@@ -14,7 +14,7 @@ use Smoren\TypeTools\MapAccess;
 class TreeWalker
 {
     /**
-     * Iterates a tree like a flat collection using deep traversal.
+     * Iterates a tree like a flat collection using depth-first traversal.
      *
      * If $childrenContainerKey is not null looks for children items using by this key only.
      *
@@ -31,7 +31,7 @@ class TreeWalker
     }
 
     /**
-     * Iterates a tree like a flat collection using wide traversal.
+     * Iterates a tree like a flat collection using breadth-first traversal.
      *
      * If $childrenContainerKey is not null looks for children items using by this key only.
      *
