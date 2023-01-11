@@ -1,9 +1,9 @@
 <?php
 
-namespace Smoren\TreeTools\Tests\Unit\TreeMaker;
+namespace Smoren\TreeTools\Tests\Unit\TreeBuilder;
 
 use Smoren\TreeTools\Tests\Unit\Fixture\TreeItemFixture;
-use Smoren\TreeTools\TreeMaker;
+use Smoren\TreeTools\TreeBuilder;
 
 class ClassObjectTest extends \Codeception\Test\Unit
 {
@@ -16,7 +16,7 @@ class ClassObjectTest extends \Codeception\Test\Unit
     public function testMain(array $input, array $expected): void
     {
         // When
-        $result = TreeMaker::fromList($input);
+        $result = TreeBuilder::build($input);
 
         // Then
         $this->assertEquals($expected, $result);
@@ -34,14 +34,14 @@ class ClassObjectTest extends \Codeception\Test\Unit
             ],
             [
                 [
-                    ($item1 = new TreeItemFixture(['id' => 1, 'name' => 'Элемент 1', 'parent_id' => null])),
-                    ($item11 = new TreeItemFixture(['id' => 2, 'name' => 'Элемент 1.1', 'parent_id' => 1])),
-                    ($item12 = new TreeItemFixture(['id' => 3, 'name' => 'Элемент 1.2', 'parent_id' => 1])),
-                    ($item111 = new TreeItemFixture(['id' => 4, 'name' => 'Элемент 1.1.1', 'parent_id' => 2])),
-                    ($item2 = new TreeItemFixture(['id' => 5, 'name' => 'Элемент 2', 'parent_id' => null])),
-                    ($item3 = new TreeItemFixture(['id' => 6, 'name' => 'Элемент 3', 'parent_id' => null])),
-                    ($item31 = new TreeItemFixture(['id' => 7, 'name' => 'Элемент 3.1', 'parent_id' => 6])),
-                    ($item32 = new TreeItemFixture(['id' => 8, 'name' => 'Элемент 3.2', 'parent_id' => 6])),
+                    ($item1 = new TreeItemFixture(['id' => 1, 'name' => 'Item 1', 'parent_id' => null])),
+                    ($item11 = new TreeItemFixture(['id' => 2, 'name' => 'Item 1.1', 'parent_id' => 1])),
+                    ($item12 = new TreeItemFixture(['id' => 3, 'name' => 'Item 1.2', 'parent_id' => 1])),
+                    ($item111 = new TreeItemFixture(['id' => 4, 'name' => 'Item 1.1.1', 'parent_id' => 2])),
+                    ($item2 = new TreeItemFixture(['id' => 5, 'name' => 'Item 2', 'parent_id' => null])),
+                    ($item3 = new TreeItemFixture(['id' => 6, 'name' => 'Item 3', 'parent_id' => null])),
+                    ($item31 = new TreeItemFixture(['id' => 7, 'name' => 'Item 3.1', 'parent_id' => 6])),
+                    ($item32 = new TreeItemFixture(['id' => 8, 'name' => 'Item 3.2', 'parent_id' => 6])),
                 ],
                 [
                     [

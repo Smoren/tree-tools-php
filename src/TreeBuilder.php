@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Smoren\TreeTools;
 
 use Smoren\TypeTools\MapAccess;
-use ArrayAccess;
 use stdClass;
 
-class TreeMaker
+class TreeBuilder
 {
     /**
-     * @param iterable<mixed> $list
+     * Builds a tree from given flat collection of items with relations.
+     *
+     * @param iterable<mixed> $collection
      * @param string $idField
      * @param string $parentIdField
      * @param string $childrenContainerField
@@ -19,8 +20,8 @@ class TreeMaker
      *
      * @return array<mixed>
      */
-    public static function fromList(
-        iterable $list,
+    public static function build(
+        iterable $collection,
         string $idField = 'id',
         string $parentIdField = 'parent_id',
         string $childrenContainerField = 'children',
@@ -29,7 +30,7 @@ class TreeMaker
         $result = [];
         $map = [];
 
-        foreach($list as $item) {
+        foreach($collection as $item) {
             $map[MapAccess::get($item, $idField)] = static::wrapItem(
                 $item,
                 $childrenContainerField,
@@ -50,6 +51,8 @@ class TreeMaker
     }
 
     /**
+     * Returns value of parent relation.
+     *
      * @param mixed $item
      * @param string $parentIdField
      * @param string $itemContainerField
@@ -69,6 +72,8 @@ class TreeMaker
     }
 
     /**
+     * Returns children container of given item.
+     *
      * @param mixed $item
      * @param string $childrenContainerField
      *
@@ -84,6 +89,8 @@ class TreeMaker
     }
 
     /**
+     * Wraps collection item for tree representation.
+     *
      * @param mixed $item
      * @param string $childrenContainerField
      * @param string $itemContainerField

@@ -21,19 +21,24 @@ composer require smoren/tree-tools
 | [`traverseDepthFirst`](#Traverse-Depth-First)     | Iterates a tree using depth-first search   | `TreeWalker::traverseDepthFirst($data, $childrenContainerKey)`   |
 | [`traverseBreadthFirst`](#Traverse-Breadth-First) | Iterates a tree using breadth-first search | `TreeWalker::traverseBreadthFirst($data, $childrenContainerKey)` |
 
+#### Tree Builder
+| Reducer           | Description                              | Code Snippet                                                                                              |
+|-------------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| [`build`](#Build) | Builds a tree from given flat collection | `TreeBuilder::build($collection, $idField, $parentIdField, $childrenContainerField, $itemContainerField)` |
+
 ## Usage
 
 ### Tree Walker
 
-#### Traverse-Depth-First
+#### Traverse Depth First
 
 Iterates a tree like a flat collection using depth-first traversal.
+
+```TreeWalker::traverseDepthFirst(iterable $data, ?string $childrenContainerKey = null): Generator```
 
 If `$childrenContainerKey` is not null looks for children items using by this key only.
 
 Otherwise, considers any subarray to contain children.
-
-```TreeWalker::traverseDepthFirst(iterable $data, ?string $childrenContainerKey = null): Generator```
 
 ```php
 use Smoren\TreeTools\TreeWalker;
@@ -70,15 +75,15 @@ var_dump($result);
 // [1, 11, 12, 121, 122, 2, 21, 3]
 ```
 
-#### Traverse-Breadth-First
+#### Traverse Breadth First
 
 Iterates a tree like a flat collection using depth-breadth traversal.
+
+```TreeWalker::traverseBreadthFirst(iterable $data, ?string $childrenContainerKey = null): Generator```
 
 If `$childrenContainerKey` is not null looks for children items using by this key only.
 
 Otherwise, considers any subarray to contain children.
-
-```TreeWalker::traverseBreadthFirst(iterable $data, ?string $childrenContainerKey = null): Generator```
 
 ```php
 use Smoren\TreeTools\TreeWalker;
@@ -113,6 +118,96 @@ foreach(TreeWalker::traverseBreadthFirst($tree) as $item) {
 }
 var_dump($result);
 // [1, 2, 3, 11, 12, 21, 121, 122]
+```
+
+### Tree Builder
+
+#### Build
+
+Builds a tree from given flat collection of items with relations.
+
+```
+TreeBuilder::build(
+    iterable $collection,
+    string $idField = 'id',
+    string $parentIdField = 'parent_id',
+    string $childrenContainerField = 'children',
+    string $itemContainerField = 'item'
+): array
+```
+
+```php
+use Smoren\TreeTools\TreeBuilder;
+
+$input = [
+    ['id' => 1, 'name' => 'Item 1', 'parent_id' => null],
+    ['id' => 2, 'name' => 'Item 1.1', 'parent_id' => 1],
+    ['id' => 3, 'name' => 'Item 1.2', 'parent_id' => 1],
+    ['id' => 4, 'name' => 'Item 1.1.1', 'parent_id' => 2],
+    ['id' => 5, 'name' => 'Item 2', 'parent_id' => null],
+    ['id' => 6, 'name' => 'Item 3', 'parent_id' => null],
+    ['id' => 7, 'name' => 'Item 3.1', 'parent_id' => 6],
+    ['id' => 8, 'name' => 'Item 3.2', 'parent_id' => 6],
+];
+
+$tree = TreeBuilder::build($input);
+print_r($tree);
+/*
+[
+    [
+        'id' => 1,
+        'name' => 'Item 1',
+        'parent_id' => null,
+        'children' => [
+            [
+                'id' => 2,
+                'name' => 'Item 1.1',
+                'parent_id' => 1,
+                'children' => [
+                    [
+                        'id' => 4,
+                        'name' => 'Item 1.1.1',
+                        'parent_id' => 2,
+                        'children' => [],
+                    ]
+                ],
+            ],
+            [
+                'id' => 3,
+                'name' => 'Item 1.2',
+                'parent_id' => 1,
+                'children' => [],
+            ],
+        ],
+    ],
+    [
+        'id' => 5,
+        'name' => 'Item 2',
+        'parent_id' => null,
+        'children' => [],
+    ],
+    [
+        'id' => 6,
+        'name' => 'Item 3',
+        'parent_id' => null,
+        'children' => [
+            [
+                'id' => 7,
+                'name' => 'Item 3.1',
+                'parent_id' => 6,
+                'children' => [],
+            ],
+            [
+                'id' => 8,
+                'name' => 'Item 3.2',
+                'parent_id' => 6,
+                'children' => [],
+            ],
+        ]
+    ],
+]
+*/
+
 ```
 
 ## Unit testing
