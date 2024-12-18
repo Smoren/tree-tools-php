@@ -219,4 +219,4 @@ composer test
 
 ## License
 
-PHP Tree Tools is licensed under the MIT License.
+Tree Tools PHP is licensed under the MIT License.
